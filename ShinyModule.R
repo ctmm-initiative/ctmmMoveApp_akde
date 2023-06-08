@@ -10,7 +10,6 @@ library(leaflet)
 shinyModuleUserInterface <- function(id, label) {
   ns <- NS(id) ## all IDs of UI functions need to be wrapped in ns()
   tagList(
-    titlePanel("Outlier detection"),
     fluidRow(
       column(4,
              wellPanel(

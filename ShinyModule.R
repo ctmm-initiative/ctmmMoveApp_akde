@@ -40,9 +40,18 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     
     akde_sf <- akde_sf %>% 
       mutate(ID = sub("[0-9]{1,2}%.*$", "", name),
-             what = purrr::map_chr(stringr::str_split(name, " "), ~ tail(.x,1)))
-    
-    m <- mapview(akde_sf, layer.name = "ID", zcol = "what")
+             what = purrr::map_chr(stringr::str_split(name, " "), ~ tail(.x,1))) %>% 
+      mutate(what = as.factor(what)) 
+    akde_sf$what <- factor(akde_sf$what, levels = c("low", "est", "high"))
+    akde_sf <- akde_sf %>%  
+      arrange(desc(what)) %>% 
+      group_split(ID)
+    names(akde_sf) <- names(hr)
+    m <- mapview(akde_sf, 
+                 #layer.name = "what", 
+                 zcol = "what",
+                 legend = TRUE,
+                 col.regions=list("#ddfff7","#93e1d8","#ffa69e"))
     m@map
   })
   

@@ -31,12 +31,18 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
   hr <- akde(data[[1]], data[[2]])
   
   output$map <- renderLeaflet({
-  
+    
     akde_sf <- map(hr, ~ sf::st_as_sf(ctmm::SpatialPolygonsDataFrame.UD(.x, level.UD = input$isopleth_levels))) |> bind_rows()
-    m <- mapview(akde_sf)
+    
     # export as geopackage
     akde_sf |> 
-      sf::st_write(appArtifactPath(glue::glue("homerange.gpkg")))
+      sf::st_write(appArtifactPath(glue::glue("homerange.gpkg")), append = FALSE)
+    
+    akde_sf <- akde_sf %>% 
+      mutate(ID = sub("[0-9]{1,2}%.*$", "", name),
+             what = purrr::map_chr(stringr::str_split(name, " "), ~ tail(.x,1)))
+    
+    m <- mapview(akde_sf, layer.name = "ID", zcol = "what")
     m@map
   })
   

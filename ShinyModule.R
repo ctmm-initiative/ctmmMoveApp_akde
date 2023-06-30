@@ -46,7 +46,16 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     m@map
   })
   
+  # Artifact: summary
+  xx <- map(hr, ~ summary(.x)$CI)
+  xx <- do.call(rbind, xx)
+  xx |> as_tibble() |> 
+    mutate(id = names(hr), unit = rownames(xx)) |> 
+    select(id, unit, low, est, high) |> 
+    write.csv(appArtifactPath(glue::glue("akde_summary.txt")))
+  
+  
   return(reactive({ 
-    list(data, hr)
+    c(data, list(hr))
   })) ## if data are not modified, the unmodified input data must be returned
 }

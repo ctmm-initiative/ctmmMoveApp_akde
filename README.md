@@ -1,19 +1,17 @@
-# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
+# Autocorrelated Kernel Density Estimate (aKDE)
 
 MoveApps
 
-Github repository: *github.com/yourAccount/Name-of-App* *(the link to the repository where the code of the app can be found must be provided)*
+Github repository: **todo**
 
 ## Description
-*Enter here the short description of the App that might also be used when filling out the description when submitting the App to Moveapps. This text is directly presented to Users that look through the list of Apps when compiling Workflows.*
+Calculate an autocorrelated kernel density estimate from a fitted continuous time movement model (ctmm). 
 
 ## Documentation
-*Enter here a detailed description of your App. What is it intended to be used for. Which steps of analyses are performed and how. Please be explicit about any detail that is important for use and understanding of the App and its outcomes.*
+This app is part of a `ctmm`-workflow. The requires a fitted ctmm Model.
 
 ### Input data
-*Indicate which type of input data the App requires. Currently only R objects of class `MoveStack` can be used. This will be extend in the future.*
-
-*Example*: MoveStack in Movebank format
+The app requires a *ctmm model with data* as input. 
 
 ### Output data
 *Indicate which type of output data the App produces to be passed on to subsequent apps. Currently only R objects of class `MoveStack` can be used. This will be extend in the future. In case the App does not pass on any data (e.g. a shiny visualization app), it can be also indicated here that no output is produced to be used in subsequent apps.*
@@ -21,7 +19,10 @@ Github repository: *github.com/yourAccount/Name-of-App* *(the link to the reposi
 *Example:* MoveStack in Movebank format
 
 ### Artefacts
-*If the App creates artefacts (e.g. csv, pdf, jpeg, shapefiles, etc), please list them here and describe each.*
+The app create the following artefacts: 
+
+- `app-output.rds`: 
+- `homerange.gpkg`: A geopackage with the calculated home ranges.
 
 *Example:* `rest_overview.csv`: csv-file with Table of all rest site properties
 
@@ -31,7 +32,7 @@ Github repository: *github.com/yourAccount/Name-of-App* *(the link to the reposi
 `Store settings`: click to store the current settings of the app for future workflow runs
 
 ### Most common errors
-*Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
+The app currently does not check which movement model was selected. If the animal does not exhibit home-ranging behaviour, then calculating an aKDE does not make sense and the app may run for a very long time wihtout meaningful results. 
 
 ### Null or error handling
 *Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if UI settings/parameters are improperly set and any other important information that you find the user should be aware of.*

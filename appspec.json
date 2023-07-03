@@ -22,6 +22,9 @@
       },
       {
         "name": "leaflet"
+      }, 
+      {
+        "name": "zip"
       }
     ]
   },

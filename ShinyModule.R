@@ -6,6 +6,7 @@ library(dplyr)
 library(purrr)
 library(mapview)
 library(leaflet)
+library(zip)
 
 shinyModuleUserInterface <- function(id, label) {
   ns <- NS(id) ## all IDs of UI functions need to be wrapped in ns()
@@ -56,7 +57,7 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     m@map
   })
   
-  # Artifact: summary
+  # Artefact: summary
   xx <- map(hr, ~ summary(.x)$CI)
   xx <- do.call(rbind, xx)
   xx |> as_tibble() |> 
@@ -64,6 +65,17 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     select(id, unit, low, est, high) |> 
     write.csv(appArtifactPath(glue::glue("akde_summary.txt")))
   
+  # Artefact: tifs
+  dir.create(targetDirUDs <- tempdir())
+  
+  r <- lapply(names(hr), function(x) 
+    writeRaster(hr[[x]], file.path(targetDirUDs, paste0(x, ".tif"))))
+  
+  zip::zip(
+    zipfile = appArtifactPath("uds.zip"),
+    files = list.files(targetDirUDs, full.names = TRUE, pattern = "tif$"),
+    mode = "cherry-pick"
+  )
   
   return(reactive({ 
     c(data[[2]], list(hr), data[[1]])

@@ -2,7 +2,7 @@
 
 MoveApps
 
-Github repository: **todo**
+Github repository: https://github.com/ctmm-initiative/moveapps_ctmm_akde/
 
 ## Description
 Calculate an autocorrelated kernel density estimate from a fitted continuous time movement model (ctmm). 

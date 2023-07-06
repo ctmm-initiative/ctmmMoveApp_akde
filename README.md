@@ -22,12 +22,12 @@ ctmm UD with Data and Model including the akde UD for all tracks
 
 `homerange.gpkg`: A geopackage with the calculated akde home ranges.
 
-`akde_summary.txt`: Summary of the calculated home ranges. (PLEASE DEFINE THE DIFFERENT COLUMNS IN THE TABLE - e.g. home range size in km^2...)
+`akde_summary.csv`: Summary of the calculated home ranges. The table contains the following columns: `id` the name of the animal, `unit` the unit of the home-range area, the estimated home-range area (`est`) at a given isopleth level (as chosen above, the default is 0.95) and the lower (`low`) and upper (`high`) 95 % confidence interval. 
 
 
 ### Settings
 
-`Isopleth level`: the isopleth level for which the home range is calculated and shown on the map. (PLEASE DESCRIBE WHAT ISOPLETH IS)
+`Isopleth level`: Coverage level of the utilization distribution area. I.e., the 50% core home range would be given by level of 0.50.
 
 `Store settings`: click to store the current settings of the app for future workflow runs. 
 

@@ -69,7 +69,7 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
   dir.create(targetDirUDs <- tempdir())
   
   r <- lapply(names(hr), function(x) 
-    writeRaster(hr[[x]], file.path(targetDirUDs, paste0(x, ".tif"))))
+    writeRaster(hr[[x]], file.path(targetDirUDs, paste0(x, ".tif")), overwrite = TRUE))
   
   zip::zip(
     zipfile = appArtifactPath("uds.zip"),

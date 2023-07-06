@@ -63,7 +63,7 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
   xx |> as_tibble() |> 
     mutate(id = names(hr), unit = rownames(xx)) |> 
     select(id, unit, low, est, high) |> 
-    write.csv(appArtifactPath(glue::glue("akde_summary.txt")))
+    write.csv(appArtifactPath(glue::glue("akde_summary.csv")))
   
   # Artefact: tifs
   dir.create(targetDirUDs <- tempdir())

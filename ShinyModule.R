@@ -58,7 +58,7 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
   })
   
   # Artefact: summary
-  xx <- map(hr, ~ summary(.x)$CI)
+  xx <- map(hr, ~ summary(.x, level.UD = input$isopleth_levels)$CI)
   xx <- do.call(rbind, xx)
   xx |> as_tibble() |> 
     mutate(id = names(hr), unit = rownames(xx)) |> 

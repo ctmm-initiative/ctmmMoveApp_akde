@@ -58,12 +58,14 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
   })
   
   # Artefact: summary
-  xx <- map(hr, ~ summary(.x, level.UD = input$isopleth_levels)$CI)
-  xx <- do.call(rbind, xx)
-  xx |> as_tibble() |> 
-    mutate(id = names(hr), unit = rownames(xx)) |> 
-    select(id, unit, low, est, high) |> 
-    write.csv(appArtifactPath(glue::glue("akde_summary.csv")))
+  observe({
+    xx <- map(hr, ~ summary(.x, level.UD = input$isopleth_levels)$CI)
+    xx <- do.call(rbind, xx)
+    xx |> as_tibble() |> 
+      mutate(id = names(hr), unit = rownames(xx), level = input$isopleth_levels) |> 
+      select(id, level, unit, low, est, high) |> 
+      write.csv(appArtifactPath(glue::glue("akde_summary.csv")))
+  })
   
   # Artefact: tifs
   dir.create(targetDirUDs <- tempdir())

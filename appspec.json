@@ -6,6 +6,9 @@
         "name": "shiny"
       },
       {
+        "name": "shinyWidgets"
+      },
+      {
         "name": "dplyr"
       },
       {

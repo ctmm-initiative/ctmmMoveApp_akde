@@ -9,6 +9,12 @@
         "name": "shinyWidgets"
       },
       {
+        "name": "shinycssloaders"
+      },
+      {
+        "name": "leafem"
+      }
+      {
         "name": "dplyr"
       },
       {

@@ -8,6 +8,8 @@ library(purrr)
 library(mapview)
 library(leaflet)
 library(zip)
+library(shinycssloaders)
+library(leafem)
 
 
 shinyModuleUserInterface <- function(id, label) {
@@ -16,21 +18,22 @@ shinyModuleUserInterface <- function(id, label) {
     titlePanel("Autocorrelated Kernel Density Estimate"),
     fluidRow(
       column(4,
-             wellPanel(
-               sliderInput(
-                 ns("isopleth_levels"),
-                 "Isopleth level:",
-                 min = 0.01, max = .99, value = .95
-               ),
-             )
-      )
+             sliderInput(
+               ns("isopleth_levels"),
+               "Isopleth level:",
+               min = 0.01, max = .99, value = .95
+             ),
+      ), 
+      column(4, 
+             selectizeInput(ns("what"), "What do you want to see?", c("Lower CI" = "low", "Estimate" = "est", "Upper CI" = "high"), multiple = TRUE, selected = "est")
+      ),
+      column(4, 
+             sliderInput(ns("opacity"), "Opacity", min = 0, max = 1, value = 0.5), 
+             actionButton(ns("clear"), label = "Remove all animals from map")
+      ) 
     ),
-    hr(), 
-    h4("Map controll"), 
-    sliderInput(ns("opacity"), "Opacity", min = 0, max = 1, value = 0.5), 
-    selectizeInput(ns("what"), "What do you want to see?", c("Lower CI" = "low", "Estimate" = "est", "Upper CI" = "high"), multiple = TRUE, selected = "est"), 
-#    uiOutput(ns("pickAnimals")), 
-    leafletOutput(ns("map"))
+    hr(),
+    shinycssloaders::withSpinner(leafletOutput(ns("map")))
   )
 }
 
@@ -52,10 +55,6 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     
     akde_sf
   })
-  
- # output$pickAnimals <- renderCachedPlot({
- #   pickerInput("animals", choices = names(hr), options = list(`actions-box` = TRUE), multiple = TRUE)
- # })
   
   
   hr.leaflet <- reactive({
@@ -85,18 +84,43 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
     
   })
   
-  what.cols = c(low = "#ddfff7", est = "#93e1d8", high = "#ffa69e")
+  cols <- rainbow(length(hr))
+  
   observe({
     m <- leafletProxy("map") |> 
       clearShapes() |> 
       clearControls()
     for (i in 1:length(hr.leaflet())) {
-      m <- m |> addPolygons(data = hr.leaflet()[[i]] |> 
-                              filter(what %in% input$what), 
-                            group = names(hr.leaflet())[i], 
-                            color = what.cols[input$what],
-                            fillColor = what.cols[input$what], 
-                            fillOpacity = input$opacity)
+      if ("est" %in% input$what) {
+        m <- m |> addPolygons(data = hr.leaflet()[[i]] |> 
+                                filter(what == "est"), 
+                              group = names(hr.leaflet())[i], 
+                              color = cols[i],
+                              fillColor = cols[i],
+                              fillOpacity = input$opacity)
+      }
+      
+      if ("low" %in% input$what) {
+        m <- m |> addPolygons(data = hr.leaflet()[[i]] |> 
+                                filter(what == "low"), 
+                              group = names(hr.leaflet())[i], 
+                              dashArray = "3", weight = 1,
+                              opacity = 1,
+                              color = "white",
+                              fill = FALSE)
+        
+      } 
+      
+      if ("high" %in% input$what) {
+        m <- m |> addPolygons(data = hr.leaflet()[[i]] |> 
+                                filter(what == "high"), 
+                              group = names(hr.leaflet())[i], 
+                              dashArray = "3", weight = 1,
+                              color = "white",
+                              opacity = 1,
+                              fill = FALSE)
+        
+      }
     }
     m |> 
       addLayersControl(
@@ -106,11 +130,17 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
       ) |> 
       addLegend(
         position = "bottomright",
-        colors = c("#ddfff7","#93e1d8","#ffa69e"), 
-        labels  = c("low", "est", "high")) 
+        colors = cols,
+        labels  = names(hr)) |> 
+      addHomeButton(
+        ext = c(min(bbx[, 1]), min(bbx[, 2]), max(bbx[, 3]), max(bbx[, 4])), 
+        group = "Full extent", position = "bottomleft")
     
   })
-  
+  observeEvent(input$clear, {
+    leafletProxy("map") |> 
+      hideGroup(names(hr.leaflet()))
+  })
   
   
   # Artefact: summary

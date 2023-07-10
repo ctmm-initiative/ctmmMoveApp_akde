@@ -29,6 +29,12 @@ ctmm UD with Data and Model including the akde UD for all tracks
 
 `Isopleth level`: Coverage level of the utilization distribution area. I.e., the 50% core home range would be given by level of 0.50.
 
+`What do you want to see?`: Allows the user to select if only the estimated home-range or also lower and upper confidence interval should be displayed. 
+
+`Opacity`: The opacity of the estimated home range on the map. 
+
+`Remove all animals from map`: This button will remove all home-ranges from the map. They can be added individually again. 
+
 `Store settings`: click to store the current settings of the app for future workflow runs. 
 
 ### Most common errors

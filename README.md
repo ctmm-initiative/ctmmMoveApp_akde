@@ -24,7 +24,7 @@ ctmm UD with Data and Model including the akde UD for all tracks
 
 `akde_summary.csv`: Summary of the calculated home ranges. The table contains the following columns: `id` the name of the animal, `level` the isopleth level, `unit` the unit of the home-range area, the estimated home-range area (`est`) at a given isopleth level (as chosen above, the default is 0.95) and the lower (`low`) and upper (`high`) 95 % confidence interval. 
 
-`uds.zip`: A zipped archive of individual utlization distributions (UDs). 
+`uds.zip`: A zipped archive of individual utilization distributions (UDs). 
 
 ### Settings
 

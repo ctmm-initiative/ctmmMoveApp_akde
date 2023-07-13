@@ -2,7 +2,7 @@
 
 MoveApps
 
-Github repository: https://github.com/ctmm-initiative/moveapps_ctmm_akde/
+Github repository: https://github.com/ctmm-initiative/ctmmMoveApp_ctmm_akde/
 
 ## Description
 Calculate an autocorrelated kernel density estimate of your tracked animals' home-ranges from a fitted continuous time movement model (ctmm). 

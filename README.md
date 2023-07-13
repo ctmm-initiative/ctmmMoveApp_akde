@@ -39,7 +39,7 @@ ctmm UD with Data and Model including the akde UD for all tracks
 `Store settings`: click to store the current settings of the app for future workflow runs. 
 
 ### Most common errors
-Please make an issue here if you repeatedly encounter a specific error.
+Please make an issue [here](https://github.com/ctmm-initiative/moveapps_ctmm_akde/issues) if you repeatedly encounter a specific error.
 
 ### Null or error handling
 

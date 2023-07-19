@@ -12,6 +12,8 @@ This app is part of a `ctmm`-workflow. It requires that a fitted ctmm model is c
 
 Autocorrelacted kerned density estmates (aKDEs) are estimates of resident animals' range distribution that take into account the autocorrelation of telemetry/tracking data via autocorrelated kernel density estimation. Please see the [AKDE vignette](https://cran.r-project.org/web/packages/ctmm/vignettes/akde.html) or the [publication about the ctmm pacakge and aKDEs](https://doi.org/10.1111/2041-210X.12559) for further details.
 
+**ATTENTION**: The preceding App *`Fit a Continuous-Time Movement Model (ctmm)`* can have a long run time (hours). Consider pinning this app for further workflow runs. Subsequent apps like *`Autocorrelated Kernel Density Estimate (aKDE)`* and *`Estimate Occurrence Distribution (Kriging)`* with interactive user interface (once the app has run a button "OPEN APP UI" appears) can only be accessed for 8 hours (afterwards the "OPEN APP UI" is not visible anymore). To get again access to it, the workflow has to be run again. BUT before doing this, pin the workflow to the *`Fit a Continuous-Time Movement Model (ctmm)`* (menu at the top right corner of the App - *"Pin to this App"*) to avoid the long run time again. An app can only be pinned once it has run and produced results.
+
 ### Input data
 The app requires a *ctmm model with data* as input. 
 

@@ -33,7 +33,7 @@ shinyModuleUserInterface <- function(id, label) {
       ) 
     ),
     hr(),
-    shinycssloaders::withSpinner(leafletOutput(ns("map")))
+    shinycssloaders::withSpinner(leafletOutput(ns("map"), height = "600"))
   )
 }
 
@@ -80,7 +80,10 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
                options = providerTileOptions(noWrap = TRUE), group="World Imagery") |> 
       addProviderTiles(providers$Stamen.Toner, group = "Toner") |> 
       addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") |> 
-      fitBounds(min(bbx[, 1]), min(bbx[, 2]), max(bbx[, 3]), max(bbx[, 4]))
+      fitBounds(min(bbx[, 1]), min(bbx[, 2]), max(bbx[, 3]), max(bbx[, 4])) |> 
+      addHomeButton(
+        ext = c(min(bbx[, 1]), min(bbx[, 2]), max(bbx[, 3]), max(bbx[, 4])), 
+        group = "Full extent", position = "bottomleft")
     
   })
   
@@ -131,10 +134,7 @@ shinyModule <- function(input, output, session, data){ ## The parameter "data" i
       addLegend(
         position = "bottomright",
         colors = cols,
-        labels  = names(hr)) |> 
-      addHomeButton(
-        ext = c(min(bbx[, 1]), min(bbx[, 2]), max(bbx[, 3]), max(bbx[, 4])), 
-        group = "Full extent", position = "bottomleft")
+        labels  = names(hr)) 
     
   })
   observeEvent(input$clear, {
